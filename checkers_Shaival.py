@@ -504,50 +504,53 @@ def turnSelect():
         except IndexError:
             print("Please select an integer from the above choices.")
 
-
+## The main function is used to initialise our variables and set the sequence for game execution
+## Inputs: None
+## Output: None
 def main():
     global MOVE
     global DIFFICULTY
     global TURN
 
-    b=Board()
-    b.printBoard()
-    turnSelect()
-    selectDifficulty()
-    human=Player()
-    computer=Player()
+    b=Board() # Initialise the Board class
+    b.printBoard() # Print our initial board
+    turnSelect() # User wants to go first or second
+    selectDifficulty() # Select the game difficulty
+    human=Player() # Initialise the Player object (Human)
+    computer=Player() # Initialise the Player object (Computer)
     computer.TYPE="C"
     while MOVE!=2:
         if TURN==1:
-            hstate = human.endMove(b,"H")
-            if hstate == "Terminate":
+            hstate = human.endMove(b,"H")  # Check if the user can make moves
+            if hstate == "Terminate": # If no remaining pieces, terminate the game
                 MOVE=2
                 break
-            elif hstate !="Switch":
+            elif hstate !="Switch": # If the current player has moves left
                 human.getMove(b)
 
-            cstate = computer.endMove(b,"C")
+            cstate = computer.endMove(b,"C") # Check if the computer can make moves
             if cstate == "Terminate":
                 MOVE=2
                 break
             elif cstate != "Switch":
-                computer.checkAI(b)
+                computer.checkAI(b) # Generate, evaluate and make moves on behalf of the computer
 
-        elif TURN==2:
+        elif TURN==2: # If  the user wishes to go second
             cstate = computer.endMove(b,"C")
             if cstate == "Terminate":
                 break
             elif cstate != "Switch":
                 computer.checkAI(b)
 
-            b.printBoard()
+            b.printBoard() # Print board to update computer's moves
             hstate = human.endMove(b, "H")
             if hstate == "Terminate":
                 break
             elif hstate != "Switch":
                 human.getMove(b)
-        b.printBoard()
+        b.printBoard() # Print board to update computer's moves
 
+    # Display the winner
     score=b.winCheck()
     if score>0:
         print("\nThe Computer Won!")
@@ -555,6 +558,8 @@ def main():
         print("\nIt's A Tie!")
     else:
         print("\nYou Won!")
+
+    # Print game statistics
     print("\nGame Statistics:\nMaximum Depth Attained: {0}\nNodes Expanded: {1}\nMax Pruning: {2}\nMin Pruning: {3}".format(MAX_DEPTH,NODES,MAX_PRUN,MIN_PRUN))
 
 main()
