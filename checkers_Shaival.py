@@ -337,11 +337,11 @@ class Player:
         if movetype: # If movetype is valid
             board.newBoard([[BEST_ALPHA[0],BEST_ALPHA[1]],[BEST_ALPHA[2],BEST_ALPHA[3]]],movetype,"C")
 
-            # Print statistics related to the game
-            print("Best Move: {0}".format(BEST_ALPHA))
-            print("Min Pruning: ",MIN_PRUN)
-            print("Max Pruning: ",MAX_PRUN)
-            print("Nodes: ",NODES)
+            # Print statistics related to the game after every move
+            # print("Best Move: {0}".format(BEST_ALPHA))
+            # print("Min Pruning: ",MIN_PRUN)
+            # print("Max Pruning: ",MAX_PRUN)
+            # print("Nodes: ",NODES)
         MOVE=1-MOVE # Switch move
 
 
