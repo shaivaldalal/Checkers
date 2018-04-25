@@ -19,7 +19,7 @@ import random
 ### DECLARING GLOBAL VARIABLES ###
 MOVE=1 # Indicates whether a player can move or not
 BEST_ALPHA=() # The best move indicated by alpha
-PERM_DEPTH=20 # Cutoff depth for AI before backtracking
+PERM_DEPTH=60 # Cutoff depth for AI before backtracking
 MAX_DEPTH=0 # The maximum depth reached by the AI
 START_TIME=0 # AI start time
 MAX_PRUN=0 # Pruning at Maximizer node
