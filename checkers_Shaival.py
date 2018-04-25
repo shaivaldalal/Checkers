@@ -11,8 +11,8 @@
 ### IMPORTING LIBRARIES ###
 import numpy as np
 from copy import deepcopy
-import sys
 import datetime
+import random
 
 
 
@@ -349,6 +349,40 @@ class Player:
     ## The moveGenerator function is responsible for generating moves on behalf of the human and the computer player.
     ## Inputs: remaining_pieces (list), board (object), TYPE (character)
     ## Output: moves (list: Contains possible moves for every piece)    
+    def endMove(self, board, TYPE):
+        global MOVE
+
+        if TYPE=="H": # Set opponent type
+            opponent="C"
+        else:
+            opponent="H"
+
+        # Find all the remaining pieces of the computer and the human
+        remainingPiecesO = np.argwhere(np.char.find(board.initialBoard, opponent) == 0)
+        remainingPieces = np.argwhere(np.char.find(board.initialBoard, TYPE) == 0)
+
+        if len(remainingPieces) == 0 and len(remainingPiecesO) == 0: # If no remaining pieces, return "Terminate"
+            return "Terminate"
+
+        else:
+            movesO=self.moveGenerator(remainingPiecesO, board.initialBoard,opponent) # Generate moves for the opponent
+            moves=self.moveGenerator(remainingPieces, board.initialBoard, TYPE) # Generate moves for the player
+
+            if len(moves)==0 and len(movesO)==0:
+                return "Terminate"
+
+            elif (moves is None or len(moves)==0) and (movesO is not None and len(movesO)!=0): # Switch turns if no possible moves for the current player but possible for the opponent
+                MOVE=1-MOVE
+                return "Switch"
+
+            else:
+                return moves
+
+
+
+    ## The endMove function is a wrapper responsible for checking if the player has any moves left.
+    ## Inputs: remaining_pieces (list), board (object), TYPE (character)
+    ## Output: moves (list: Contains possible moves for every piece)
     def moveGenerator(self,remainingPieces,board,TYPE):
         moves=[]
         if TYPE=="C": # For Computer's moves
@@ -390,11 +424,11 @@ class Player:
                 y=remainingPieces[element][1]
 
                 # Jumps
-                # Generate jumps with a distance of 2 blocks                
+                # Generate jumps with a distance of 2 blocks
                 if x>2: dx2=x-2
                 else: dx2=None
 
-                # Conditions for a right jump   
+                # Conditions for a right jump
                 if dx2 and y<5 and board[dx2][y+2]=="0 " and board[x-1][y+1].startswith("C"): dy2=y+2
                 else: dy2=None
                 if dx2 and dy2: moves.append([x,y,dx2,dy2,2])
@@ -420,40 +454,6 @@ class Player:
 
 
 
-    ## The endMove function is a wrapper responsible for checking if the player has any moves left.
-    ## Inputs: remaining_pieces (list), board (object), TYPE (character)
-    ## Output: moves (list: Contains possible moves for every piece)
-    def endMove(self, board, TYPE):
-        global MOVE
-
-        if TYPE=="H": # Set opponent type
-            opponent="C"
-        else:
-            opponent="H"
-
-        # Find all the remaining pieces of the computer and the human
-        remainingPiecesO = np.argwhere(np.char.find(board.initialBoard, opponent) == 0)
-        remainingPieces = np.argwhere(np.char.find(board.initialBoard, TYPE) == 0)
-
-        if len(remainingPieces) == 0 and len(remainingPiecesO) == 0: # If no remaining pieces, return "Terminate"
-            return "Terminate"
-
-        else:
-            movesO=self.moveGenerator(remainingPiecesO, board.initialBoard,opponent) # Generate moves for the opponent
-            moves=self.moveGenerator(remainingPieces, board.initialBoard, TYPE) # Generate moves for the player
-
-            if len(moves)==0 and len(movesO)==0:
-                return "Terminate"
-
-            elif (moves is None or len(moves)==0) and (movesO is not None and len(movesO)!=0): # Switch turns if no possible moves for the current player but possible for the opponent
-                MOVE=1-MOVE
-                return "Switch"
-
-            else:
-                return moves
-
-
-
 ## The selectDifficulty function is used to ask the user about the difficulty level.
 ## Inputs: None
 ## Output: None
@@ -467,12 +467,13 @@ def selectDifficulty():
             if diff_level<1 or diff_level>3:
                 raise IndexError
 
+            # We use random integers to select the difficulty level in order to generate a fresh game
             if diff_level==1:
-                DIFFICULTY = int(5) # Set the seconds cutoff to 5 if the user selects easy
+                DIFFICULTY = random.randint(0,5) # Set the seconds cutoff between 0 and 5 if the user selects easy
             elif diff_level==2:
-                DIFFICULTY = int(10) # Set the seconds cutoff to 10 if the user selects moderrate
+                DIFFICULTY = random.randint(6,10) # Set the seconds cutoff between 6 and 10 if the user selects moderate
             else:
-                DIFFICULTY = int(15) # Set the seconds cutoff to 15 if the user selects difficult
+                DIFFICULTY = random.randint(11,15) # Set the seconds cutoff between 11 and 15 if the user selects difficult
 
             endfunc=1
 
