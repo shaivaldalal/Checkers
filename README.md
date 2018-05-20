@@ -29,10 +29,10 @@ __Features:__
 The operating system used for code compilation was Ubuntu 16.04 with Linux kernel
 4.4+
 
-### Shell command
+**Shell command**
 > python checkers_Shaival.py
 
-### Running the game
+**Running the game**
 1. Run the shell command
 2. Select if you would like to go first or second
 3. Select the level of difficulty
@@ -47,14 +47,36 @@ General flow of control:
 2. The player chooses the difficulty level (**selectDifficulty()**)
 3. Based on the user input, a particular execution flow is followed. Functions involved are:<br>
   a. **endMove()** which checks for moves possible for the user or the computer<br>
-      &nbsp;&nbsp;i. Calls **moveGenerator()** to generate legal moves <br>
+      &nbsp;&nbsp;&nbsp;i. Calls **moveGenerator()** to generate legal moves <br>
   b. **checkAI()** is a wrapper function which implements the Alpha Beta pruning in the code<br>
-        &nbsp;&nbsp;i. Calls the **AlphaBeta()** function which recursively expands the nodes and explores possible moves<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;1. Calls the **winCheck()** function to calculate the score <br>
-          &nbsp;&nbsp;&nbsp;&nbsp;2. Calls the **newBoard()** function to update the temporary board with new moves<br>
+        &nbsp;&nbsp;&nbsp;i. Calls the **AlphaBeta()** function which recursively expands the nodes and explores possible moves<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Calls the **winCheck()** function to calculate the score <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Calls the **newBoard()** function to update the temporary board with new moves<br>
    c. **getMove()** is a function to fetch moves from the user. It enforces basic rules to minimise function calls<br>
-      &nbsp;&nbsp;i. Calls the **checkMove()** function to enforce extended rules to ensure the legality of moves<br>
-      &nbsp;&nbsp;ii. Calls the **newBoard()** function to update the board<br>
+      &nbsp;&nbsp;&nbsp;i. Calls the **checkMove()** function to enforce extended rules to ensure the legality of moves<br>
+      &nbsp;&nbsp;&nbsp;ii. Calls the **newBoard()** function to update the board<br>
 
 4. The score function (**winCheck()**) is called to calculate the score and return the results
 5. The program prints the statistics calculated at every step of the game
+
+
+### STATE INFORMATION
+The computer is the Maximiser and the human is the Minimiser.
+The score/ utility range is from [-1000,1000] where the negative value represents a human win (Minimiser) and the positive value indicates a computer win (Maximiser)
+Terminal States and their utility values:
+  - User wins the game (Minimiser) [-1000,-1]
+  - Computer wins the game (Maximiser) [1,1000]
+  - The user and the computer get tied [0]
+
+
+### EVALUATION FUNCTION
+The evaluation function calculates the number of remaining pieces of the user and the computer at any possible state. It thus calculates the number of captures made by the computer and the user.<br>
+
+If the user or the computer save all their pieces, they get the highest score in the
+evaluation function i.e. -1000 or +1000 respectively.<br>
+
+Every capture move results in a change in the score which is calculated by this function:
+> (No. of Computer Pieces) - (No. of Human Pieces) ± 400*
+<br>_400 is used for completeness of the equation and uniformity in score generation. Check the
+code to refer to the commented implementation_
+
