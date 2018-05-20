@@ -1,6 +1,5 @@
 # Author
 **Name**: Shaival Dalal
-
 **Contact**: sd3462 [at] nyu [dot] edu
 
 
