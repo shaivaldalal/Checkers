@@ -77,6 +77,14 @@ evaluation function i.e. -1000 or +1000 respectively.<br>
 
 Every capture move results in a change in the score which is calculated by this function:
 > (No. of Computer Pieces) - (No. of Human Pieces) ± 400*
-<br>_400 is used for completeness of the equation and uniformity in score generation. Check the
+<br><br>_400 is used for completeness of the equation and uniformity in score generation. Check the
 code to refer to the commented implementation_
 
+
+### DIFFICULTY LEVELS
+The user can select the level of difficulty that he/she prefers. Each difficulty level is associated with a cutoff measured in the number of seconds taken by the computer to generate a move.
+  - Easy level has a cutoff between 0 and 5 seconds
+  - Moderate has a cutoff between 6 and 10 seconds
+  - Difficult has a cutoff between 11 and 15 seconds
+<br>We randomly select a cutoff value for user’s level selection in order to generate a fresh new game despite repeating the same moves
+<br>We also use a Depth cutoff level in order to ensure that the algorithm expands other nodes quicker and discover the best move possible
