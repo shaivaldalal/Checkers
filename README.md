@@ -1,5 +1,5 @@
 # Author
-**Name**: Shaival Dalal
+**Name**: Shaival Dalal<br>
 **Contact**: sd3462 [at] nyu [dot] edu
 
 
