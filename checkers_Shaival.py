@@ -2,8 +2,7 @@
 
 ###########################################
 #  Name:          Shaival Dalal           #
-#  Course:        Artificial Intelligence #
-#  Course Number: CS6613                  #
+#                                         #
 #  Project:       Checkers Game           #
 ###########################################
 
